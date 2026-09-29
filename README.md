@@ -4,6 +4,8 @@
 
 Browse by collection, find a favorite, and click a preview to see it full size.
 
+[Open the live gallery](https://m-umar-2017.github.io/Wallpapers/)
+
 **204 wallpapers** · **12 collections**
 
 ## Browse collections
