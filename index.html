@@ -17,7 +17,7 @@
       --subtext: #a6adc8;
       --muted: #6c7086;
       --blue: #89b4fa;
-      --lavender: #b4befe;
+      --red: #f38ba8;
       --border: #313244;
     }
 
@@ -66,32 +66,10 @@
       color: var(--subtext);
     }
 
-    .toolbar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    .toolbar input {
-      width: min(100%, 420px);
-      min-height: 42px;
-      padding: 0 14px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      outline: none;
-      background: var(--mantle);
-      color: var(--text);
-      font: inherit;
-    }
-
-    .toolbar input::placeholder { color: var(--muted); }
-    .toolbar input:focus { border-color: var(--blue); }
-
     .count {
+      margin: 20px 0 0;
       color: var(--muted);
       font-size: 12px;
-      white-space: nowrap;
     }
 
     main { padding: 10px 0 64px; }
@@ -148,6 +126,8 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
+      user-select: none;
+      -webkit-user-drag: none;
     }
 
     .card-info { padding: 12px; }
@@ -184,10 +164,10 @@
 
     .download svg { width: 14px; height: 14px; }
 
-    .empty {
-      padding: 48px 0;
-      color: var(--muted);
-      text-align: center;
+    .download-status {
+      margin: 8px 0 0;
+      color: var(--red);
+      font-size: 11px;
     }
 
     footer {
@@ -202,8 +182,6 @@
     @media (max-width: 600px) {
       .shell { width: min(100% - 28px, 1440px); }
       header { padding-top: 36px; }
-      .toolbar { align-items: flex-start; flex-direction: column; }
-      .toolbar input { width: 100%; }
       .grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 10px; }
       .card-info { padding: 9px; }
     }
@@ -216,13 +194,10 @@
 <body>
   <header>
     <div class="shell">
-      <p class="eyebrow">system24 / wallpaper archive</p>
+      <p class="eyebrow">wallpaper archive</p>
       <h1>Wallpapers<span style="color:var(--blue)">.</span></h1>
       <p class="intro">A bunch of wallpapers for your desktop. Browse the collections and download any wallpaper you like!</p>
-      <div class="toolbar">
-        <input id="search" type="search" placeholder="Search wallpapers..." aria-label="Search wallpapers">
-        <span class="count" id="count" aria-live="polite"></span>
-      </div>
+      <p class="count" id="count" aria-live="polite"></p>
     </div>
   </header>
   <main class="shell" id="gallery"></main>
@@ -234,7 +209,6 @@
   <script>
     const wallpapers = [{"path":"catppuccin-flat/flatppuccin_4k_macchiato_inverted.png","collection":"catppuccin-flat","name":"flatppuccin_4k_macchiato_inverted.png"},{"path":"catppuccin-flat/flatppuccin_4k_macchiato.png","collection":"catppuccin-flat","name":"flatppuccin_4k_macchiato.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_blue.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_blue.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_flamingo.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_flamingo.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_green.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_green.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_lavender.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_lavender.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_magenta.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_magenta.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_maroon.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_maroon.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_peach.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_peach.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_pink.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_pink.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_red.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_red.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_rosewater.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_rosewater.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_sky.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_sky.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_teal.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_teal.png"},{"path":"catppuccin-mandelbrot/mandelbrot_full_yellow.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_full_yellow.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_blue.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_blue.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_flamingo.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_flamingo.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_green.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_green.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_lavender.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_lavender.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_magenta.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_magenta.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_maroon.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_maroon.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_peach.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_peach.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_pink.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_pink.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_red.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_red.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_rosewater.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_rosewater.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_sky.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_sky.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_teal.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_teal.png"},{"path":"catppuccin-mandelbrot/mandelbrot_gap_yellow.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_gap_yellow.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_blue.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_blue.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_flamingo.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_flamingo.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_green.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_green.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_lavender.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_lavender.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_magenta.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_magenta.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_maroon.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_maroon.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_peach.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_peach.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_pink.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_pink.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_red.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_red.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_rosewater.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_rosewater.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_sky.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_sky.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_teal.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_teal.png"},{"path":"catppuccin-mandelbrot/mandelbrot_side_yellow.png","collection":"catppuccin-mandelbrot","name":"mandelbrot_side_yellow.png"},{"path":"catppuccin-minimal/cat-blue-eye.png","collection":"catppuccin-minimal","name":"cat-blue-eye.png"},{"path":"catppuccin-minimal/cat-waves.png","collection":"catppuccin-minimal","name":"cat-waves.png"},{"path":"catppuccin-os/alpine-black-4k.png","collection":"catppuccin-os","name":"alpine-black-4k.png"},{"path":"catppuccin-os/alpine-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"alpine-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/alpine-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"alpine-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/android-black-4k.png","collection":"catppuccin-os","name":"android-black-4k.png"},{"path":"catppuccin-os/android-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"android-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/android-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"android-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/apple-black-4k.png","collection":"catppuccin-os","name":"apple-black-4k.png"},{"path":"catppuccin-os/apple-blue-black-1920x1080.png","collection":"catppuccin-os","name":"apple-blue-black-1920x1080.png"},{"path":"catppuccin-os/apple-colors-big-4k.png","collection":"catppuccin-os","name":"apple-colors-big-4k.png"},{"path":"catppuccin-os/apple-colors-small-4k.png","collection":"catppuccin-os","name":"apple-colors-small-4k.png"},{"path":"catppuccin-os/apple-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"apple-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/apple-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"apple-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/arch-black-4k.png","collection":"catppuccin-os","name":"arch-black-4k.png"},{"path":"catppuccin-os/arch-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"arch-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/arch-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"arch-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/arch-rainbow-1920x1080.png","collection":"catppuccin-os","name":"arch-rainbow-1920x1080.png"},{"path":"catppuccin-os/arco-black-4k.png","collection":"catppuccin-os","name":"arco-black-4k.png"},{"path":"catppuccin-os/arco-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"arco-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/arco-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"arco-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/artix-black-4k.png","collection":"catppuccin-os","name":"artix-black-4k.png"},{"path":"catppuccin-os/artix-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"artix-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/artix-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"artix-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/centos-black-4k.png","collection":"catppuccin-os","name":"centos-black-4k.png"},{"path":"catppuccin-os/crystal-linux-4k.png","collection":"catppuccin-os","name":"crystal-linux-4k.png"},{"path":"catppuccin-os/crystal-linux-magenta_blue1920x1080.png","collection":"catppuccin-os","name":"crystal-linux-magenta_blue1920x1080.png"},{"path":"catppuccin-os/crystal-linux-magenta_pink1920x1080.png","collection":"catppuccin-os","name":"crystal-linux-magenta_pink1920x1080.png"},{"path":"catppuccin-os/debian-black-4k.png","collection":"catppuccin-os","name":"debian-black-4k.png"},{"path":"catppuccin-os/debian-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"debian-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/debian-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"debian-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/deepin-black-4k.png","collection":"catppuccin-os","name":"deepin-black-4k.png"},{"path":"catppuccin-os/deepin-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"deepin-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/deepin-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"deepin-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/elementary-black-4k.png","collection":"catppuccin-os","name":"elementary-black-4k.png"},{"path":"catppuccin-os/elementary-sky-lavender-ascii.png","collection":"catppuccin-os","name":"elementary-sky-lavender-ascii.png"},{"path":"catppuccin-os/endeavour-black-4k.png","collection":"catppuccin-os","name":"endeavour-black-4k.png"},{"path":"catppuccin-os/endeavour-blue-black-1920x1080.png","collection":"catppuccin-os","name":"endeavour-blue-black-1920x1080.png"},{"path":"catppuccin-os/endeavour-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"endeavour-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/fedora-black-4k.png","collection":"catppuccin-os","name":"fedora-black-4k.png"},{"path":"catppuccin-os/fedora-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"fedora-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/fedora-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"fedora-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/freebsd-black-4k.png","collection":"catppuccin-os","name":"freebsd-black-4k.png"},{"path":"catppuccin-os/freebsd-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"freebsd-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/freebsd-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"freebsd-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/garuda-black-4k.png","collection":"catppuccin-os","name":"garuda-black-4k.png"},{"path":"catppuccin-os/gentoo-black-4k.png","collection":"catppuccin-os","name":"gentoo-black-4k.png"},{"path":"catppuccin-os/manjaro-black-4k.png","collection":"catppuccin-os","name":"manjaro-black-4k.png"},{"path":"catppuccin-os/manjaro-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"manjaro-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/manjaro-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"manjaro-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/mint-black-4k.png","collection":"catppuccin-os","name":"mint-black-4k.png"},{"path":"catppuccin-os/mint-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"mint-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/mint-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"mint-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/mxlinux-black-4k.png","collection":"catppuccin-os","name":"mxlinux-black-4k.png"},{"path":"catppuccin-os/mxlinux-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"mxlinux-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/mxlinux-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"mxlinux-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/nix-black-4k.png","collection":"catppuccin-os","name":"nix-black-4k.png"},{"path":"catppuccin-os/nix-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"nix-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/nix-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"nix-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/opensuse-black-4k.png","collection":"catppuccin-os","name":"opensuse-black-4k.png"},{"path":"catppuccin-os/opensuse-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"opensuse-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/opensuse-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"opensuse-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/pop-black-4k.png","collection":"catppuccin-os","name":"pop-black-4k.png"},{"path":"catppuccin-os/pop-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"pop-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/pop-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"pop-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/raspberry-black-4k.png","collection":"catppuccin-os","name":"raspberry-black-4k.png"},{"path":"catppuccin-os/raspberry-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"raspberry-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/raspberry-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"raspberry-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/solus-black-4k.png","collection":"catppuccin-os","name":"solus-black-4k.png"},{"path":"catppuccin-os/solus-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"solus-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/solus-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"solus-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/tux-black-4k.png","collection":"catppuccin-os","name":"tux-black-4k.png"},{"path":"catppuccin-os/tux-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"tux-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/tux-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"tux-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/ubuntu-black-4k.png","collection":"catppuccin-os","name":"ubuntu-black-4k.png"},{"path":"catppuccin-os/ubuntu-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"ubuntu-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/ubuntu-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"ubuntu-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/various-arch-1-4k.png","collection":"catppuccin-os","name":"various-arch-1-4k.png"},{"path":"catppuccin-os/various-arch-2-4k.png","collection":"catppuccin-os","name":"various-arch-2-4k.png"},{"path":"catppuccin-os/various-os-1-4k.png","collection":"catppuccin-os","name":"various-os-1-4k.png"},{"path":"catppuccin-os/various-os-2-4k.png","collection":"catppuccin-os","name":"various-os-2-4k.png"},{"path":"catppuccin-os/various-os-3-4k.png","collection":"catppuccin-os","name":"various-os-3-4k.png"},{"path":"catppuccin-os/void-1920x1080.png","collection":"catppuccin-os","name":"void-1920x1080.png"},{"path":"catppuccin-os/void-black-4k.png","collection":"catppuccin-os","name":"void-black-4k.png"},{"path":"catppuccin-os/void-black3-1920x1080.png","collection":"catppuccin-os","name":"void-black3-1920x1080.png"},{"path":"catppuccin-os/void-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"void-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/void-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"void-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/windows-black.png","collection":"catppuccin-os","name":"windows-black.png"},{"path":"catppuccin-os/windows-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"windows-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/windows-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"windows-magenta-pink-1920x1080.png"},{"path":"catppuccin-os/zorin-black-4k.png","collection":"catppuccin-os","name":"zorin-black-4k.png"},{"path":"catppuccin-os/zorin-magenta-blue-1920x1080.png","collection":"catppuccin-os","name":"zorin-magenta-blue-1920x1080.png"},{"path":"catppuccin-os/zorin-magenta-pink-1920x1080.png","collection":"catppuccin-os","name":"zorin-magenta-pink-1920x1080.png"},{"path":"catpuccin-wallpapers/abstract-swirls.jpg","collection":"catpuccin-wallpapers","name":"abstract-swirls.jpg"},{"path":"catpuccin-wallpapers/blue-kaiju.jpg","collection":"catpuccin-wallpapers","name":"blue-kaiju.jpg"},{"path":"catpuccin-wallpapers/cat-vibin.jpg","collection":"catpuccin-wallpapers","name":"cat-vibin.jpg"},{"path":"catpuccin-wallpapers/default.jpg","collection":"catpuccin-wallpapers","name":"default.jpg"},{"path":"catpuccin-wallpapers/excalibur-lake.jpg","collection":"catpuccin-wallpapers","name":"excalibur-lake.jpg"},{"path":"catpuccin-wallpapers/foggy-city.jpg","collection":"catpuccin-wallpapers","name":"foggy-city.jpg"},{"path":"catpuccin-wallpapers/hollow-knight.jpg","collection":"catpuccin-wallpapers","name":"hollow-knight.jpg"},{"path":"catpuccin-wallpapers/isekai.jpg","collection":"catpuccin-wallpapers","name":"isekai.jpg"},{"path":"catpuccin-wallpapers/kaiju.jpg","collection":"catpuccin-wallpapers","name":"kaiju.jpg"},{"path":"catpuccin-wallpapers/laundry.jpg","collection":"catpuccin-wallpapers","name":"laundry.jpg"},{"path":"catpuccin-wallpapers/minimalist-black-hole.jpg","collection":"catpuccin-wallpapers","name":"minimalist-black-hole.jpg"},{"path":"catpuccin-wallpapers/purpled-night.jpg","collection":"catpuccin-wallpapers","name":"purpled-night.jpg"},{"path":"catpuccin-wallpapers/shadow-shape-holo.jpg","collection":"catpuccin-wallpapers","name":"shadow-shape-holo.jpg"},{"path":"catpuccin-wallpapers/snowy-train.jpg","collection":"catpuccin-wallpapers","name":"snowy-train.jpg"},{"path":"catpuccin-wallpapers/storm.jpg","collection":"catpuccin-wallpapers","name":"storm.jpg"},{"path":"catpuccin-wallpapers/stormlight-archive.jpg","collection":"catpuccin-wallpapers","name":"stormlight-archive.jpg"},{"path":"catpuccin-wallpapers/void.jpg","collection":"catpuccin-wallpapers","name":"void.jpg"},{"path":"catpuccin-wallpapers/wanderer.jpg","collection":"catpuccin-wallpapers","name":"wanderer.jpg"},{"path":"catpuccin-wallpapers/waterfall.jpg","collection":"catpuccin-wallpapers","name":"waterfall.jpg"},{"path":"catpuccin-wallpapers/whale.jpg","collection":"catpuccin-wallpapers","name":"whale.jpg"},{"path":"dithered/barn.png","collection":"dithered","name":"barn.png"},{"path":"dithered/lighthouse.png","collection":"dithered","name":"lighthouse.png"},{"path":"dithered/marketplace.png","collection":"dithered","name":"marketplace.png"},{"path":"dithered/motorbikes.png","collection":"dithered","name":"motorbikes.png"},{"path":"gradients/bkg1_bkg5.png","collection":"gradients","name":"bkg1_bkg5.png"},{"path":"gradients/bkg3_bkg5.png","collection":"gradients","name":"bkg3_bkg5.png"},{"path":"gradients/blue_bkg5.png","collection":"gradients","name":"blue_bkg5.png"},{"path":"gradients/blue_green.png","collection":"gradients","name":"blue_green.png"},{"path":"gradients/cyan_bkg5.png","collection":"gradients","name":"cyan_bkg5.png"},{"path":"gradients/flamingo_bkg1.png","collection":"gradients","name":"flamingo_bkg1.png"},{"path":"gradients/flamingo_bkg5.png","collection":"gradients","name":"flamingo_bkg5.png"},{"path":"gradients/flamingo_peach.png","collection":"gradients","name":"flamingo_peach.png"},{"path":"gradients/flamingo_yellow.png","collection":"gradients","name":"flamingo_yellow.png"},{"path":"gradients/green_bkg5.png","collection":"gradients","name":"green_bkg5.png"},{"path":"gradients/magenta_blue.png","collection":"gradients","name":"magenta_blue.png"},{"path":"gradients/magenta_pink.png","collection":"gradients","name":"magenta_pink.png"},{"path":"gradients/peach_bkg5.png","collection":"gradients","name":"peach_bkg5.png"},{"path":"gradients/red_bkg5.png","collection":"gradients","name":"red_bkg5.png"},{"path":"gradients/red_peach.png","collection":"gradients","name":"red_peach.png"},{"path":"gradients/red_pink.png","collection":"gradients","name":"red_pink.png"},{"path":"its-ai/Copilot_20260713_192808.png","collection":"its-ai","name":"Copilot_20260713_192808.png"},{"path":"misc/cat-sound.png","collection":"misc","name":"cat-sound.png"},{"path":"misc/comfy-home.png","collection":"misc","name":"comfy-home.png"},{"path":"misc/doggocat.png","collection":"misc","name":"doggocat.png"},{"path":"misc/feet-on-the-dashboard.png","collection":"misc","name":"feet-on-the-dashboard.png"},{"path":"misc/lonely-fish.png","collection":"misc","name":"lonely-fish.png"},{"path":"solid-walls/bkg1.png","collection":"solid-walls","name":"bkg1.png"},{"path":"solid-walls/bkg2.png","collection":"solid-walls","name":"bkg2.png"},{"path":"solid-walls/bkg3.png","collection":"solid-walls","name":"bkg3.png"},{"path":"solid-walls/bkg4.png","collection":"solid-walls","name":"bkg4.png"},{"path":"solid-walls/bkg5.png","collection":"solid-walls","name":"bkg5.png"},{"path":"solid-walls/blue.png","collection":"solid-walls","name":"blue.png"},{"path":"solid-walls/cyan.png","collection":"solid-walls","name":"cyan.png"},{"path":"solid-walls/flamingo.png","collection":"solid-walls","name":"flamingo.png"},{"path":"solid-walls/gray.png","collection":"solid-walls","name":"gray.png"},{"path":"solid-walls/green.png","collection":"solid-walls","name":"green.png"},{"path":"solid-walls/magenta.png","collection":"solid-walls","name":"magenta.png"},{"path":"solid-walls/peach.png","collection":"solid-walls","name":"peach.png"},{"path":"solid-walls/pink.png","collection":"solid-walls","name":"pink.png"},{"path":"solid-walls/red.png","collection":"solid-walls","name":"red.png"},{"path":"solid-walls/white.png","collection":"solid-walls","name":"white.png"},{"path":"solid-walls/yellow.png","collection":"solid-walls","name":"yellow.png"},{"path":"waves/Waves Dark 6016x6016.jpg","collection":"waves","name":"Waves Dark 6016x6016.jpg"},{"path":"waves/Waves Dark Alt 6016x6016.jpg","collection":"waves","name":"Waves Dark Alt 6016x6016.jpg"},{"path":"waves/Waves Light 6016x6016.jpg","collection":"waves","name":"Waves Light 6016x6016.jpg"},{"path":"waves/wavy_lines_v01_5120x2880.png","collection":"waves","name":"wavy_lines_v01_5120x2880.png"},{"path":"waves/wavy_lines_v02_5120x2880.png","collection":"waves","name":"wavy_lines_v02_5120x2880.png"},{"path":"waves/wavy_lines_v03_5120x2880.png","collection":"waves","name":"wavy_lines_v03_5120x2880.png"},{"path":"windows-logo-walls/blue-mount.jpg","collection":"windows-logo-walls","name":"blue-mount.jpg"},{"path":"windows-logo-walls/blue-pink-windows.jpg","collection":"windows-logo-walls","name":"blue-pink-windows.jpg"}];
     const gallery = document.querySelector("#gallery");
-    const search = document.querySelector("#search");
     const count = document.querySelector("#count");
     const downloadIcon = '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2.5v7m0 0 2.75-2.75M8 9.5 5.25 6.75M3 11.5v2h10v-2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
@@ -243,19 +217,15 @@
     }
 
     function render() {
-      const query = search.value.trim().toLowerCase();
-      const matches = wallpapers.filter(wallpaper =>
-        `${wallpaper.name} ${wallpaper.collection}`.toLowerCase().includes(query)
-      );
-      count.textContent = `${matches.length} / ${wallpapers.length} wallpapers`;
       gallery.replaceChildren();
 
       const collections = new Map();
-      for (const wallpaper of matches) {
+      for (const wallpaper of wallpapers) {
         if (!collections.has(wallpaper.collection)) collections.set(wallpaper.collection, []);
         collections.get(wallpaper.collection).push(wallpaper);
       }
 
+      let imageIndex = 0;
       for (const [name, items] of collections) {
         const section = document.createElement("section");
         section.className = "collection";
@@ -279,8 +249,11 @@
           const image = document.createElement("img");
           image.src = url;
           image.alt = wallpaper.name;
-          image.loading = "lazy";
+          image.draggable = false;
+          image.loading = imageIndex < 4 ? "eager" : "lazy";
+          image.fetchPriority = imageIndex < 2 ? "high" : "auto";
           image.decoding = "async";
+          imageIndex++;
           preview.append(image);
 
           const info = document.createElement("div");
@@ -293,8 +266,13 @@
           download.className = "download";
           download.href = url;
           download.download = wallpaper.name;
+          download.dataset.downloadUrl = url;
           download.innerHTML = `${downloadIcon}<span>DOWNLOAD</span>`;
-          info.append(filename, download);
+          const status = document.createElement("p");
+          status.className = "download-status";
+          status.setAttribute("aria-live", "polite");
+          status.hidden = true;
+          info.append(filename, download, status);
           card.append(preview, info);
           grid.append(card);
         }
@@ -303,15 +281,44 @@
         gallery.append(section);
       }
 
-      if (matches.length === 0) {
-        const empty = document.createElement("p");
-        empty.className = "empty";
-        empty.textContent = "No wallpapers found.";
-        gallery.append(empty);
-      }
+      count.textContent = `${wallpapers.length} wallpapers · ${collections.size} collections`;
     }
 
-    search.addEventListener("input", render);
+    gallery.addEventListener("dragstart", event => {
+      if (event.target.closest("img")) event.preventDefault();
+    });
+
+    gallery.addEventListener("contextmenu", event => {
+      if (event.target.closest("img")) event.preventDefault();
+    });
+
+    gallery.addEventListener("click", async event => {
+      const download = event.target.closest(".download");
+      if (!download) return;
+
+      event.preventDefault();
+      const status = download.parentElement.querySelector(".download-status");
+      status.hidden = true;
+      status.textContent = "";
+
+      try {
+        const response = await fetch(download.dataset.downloadUrl);
+        if (!response.ok) throw new Error(`Download failed with status ${response.status}`);
+        const objectUrl = URL.createObjectURL(await response.blob());
+        const temporaryLink = document.createElement("a");
+        temporaryLink.href = objectUrl;
+        temporaryLink.download = download.download;
+        document.body.append(temporaryLink);
+        temporaryLink.click();
+        temporaryLink.remove();
+        window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60_000);
+      } catch (error) {
+        console.error("Could not download wallpaper:", error);
+        status.textContent = "Download failed. Open the preview to save the image.";
+        status.hidden = false;
+      }
+    });
+
     render();
   </script>
 </body>
